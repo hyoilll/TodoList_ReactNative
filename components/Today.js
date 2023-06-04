@@ -7,7 +7,7 @@ const Today = () => {
   return (
     <View>
       <Text style={{ color: theme.white }}>Today</Text>
-      <TextComp></TextComp>
+      <TextComp period="Today"></TextComp>
     </View>
   );
 };

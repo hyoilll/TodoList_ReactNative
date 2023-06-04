@@ -7,7 +7,7 @@ const Week = () => {
   return (
     <View>
       <Text style={{ color: theme.white }}>Week</Text>
-      <TextComp></TextComp>
+      <TextComp period="Week"></TextComp>
     </View>
   );
 };

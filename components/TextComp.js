@@ -2,11 +2,25 @@ import React, { useCallback, useState } from "react";
 import { StyleSheet, TextInput } from "react-native";
 import { theme } from "../color";
 
-const TextComp = () => {
+const TextComp = ({ period }) => {
   const [text, setText] = useState("");
+  const [works, setWorks] = useState({});
+
   const onChangeText = useCallback((e) => {
     setText(e);
   }, []);
+  const addTodo = useCallback(() => {
+    if (text === "") return;
+
+    const newWork = Object.assign({}, works, {
+      [Date.now()]: { text, period },
+    });
+
+    setWorks(newWork);
+    setText("");
+  }, [text]);
+
+  console.log(works);
 
   return (
     <TextInput
@@ -14,6 +28,7 @@ const TextComp = () => {
       placeholder="Add Todo"
       onChangeText={onChangeText}
       value={text}
+      onSubmitEditing={addTodo}
     ></TextInput>
   );
 };
@@ -31,3 +46,6 @@ const styles = StyleSheet.create({
 });
 
 export default TextComp;
+
+// objectにアイテムを加える方法
+// Object.assign({}, currenctObj, newObj)
