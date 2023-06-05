@@ -1,13 +1,15 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { theme } from "./color";
+import { theme } from "./color.js";
 import { useCallback, useState } from "react";
-import Today from "./components/Today";
-import Week from "./components/Week";
+import Today from "./components/Today.js";
+import Week from "./components/Week.js";
 
 export default function App() {
   // false: Today, true: Week
   const [mainScreenFlag, setMainScreenFlag] = useState(false);
+  const [itemListInToday, setItemListInToday] = useState({});
+  const [itemListInWeek, setItemListInWeek] = useState({});
 
   const onClick = useCallback((menuText) => {
     console.log("btnClick");
@@ -40,7 +42,17 @@ export default function App() {
         </TouchableOpacity>
       </View>
       <View style={styles.main}>
-        {mainScreenFlag ? <Week></Week> : <Today></Today>}
+        {mainScreenFlag ? (
+          <Week
+            itemListInWeek={itemListInWeek}
+            setItemListInWeek={setItemListInWeek}
+          ></Week>
+        ) : (
+          <Today
+            itemListInToday={itemListInToday}
+            setItemListInToday={setItemListInToday}
+          ></Today>
+        )}
       </View>
     </View>
   );
