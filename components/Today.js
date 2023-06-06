@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { theme } from "../color.js";
 import TextComp from "./TextComp";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const STORAGE_KEY = "@todo_Today";
 
 const Today = ({ itemListInToday, setItemListInToday }) => {
   const [toDo, setTodo] = useState({});
@@ -9,12 +12,34 @@ const Today = ({ itemListInToday, setItemListInToday }) => {
   useEffect(() => {
     const newWorks = Object.assign({}, itemListInToday, toDo);
     setItemListInToday(newWorks);
+    loadFromStorage();
   }, [toDo]);
+
+  const saveTodo = async (newWork) => {
+    const works = Object.assign({}, itemListInToday, newWork);
+    try {
+      const objToStr = JSON.stringify(works);
+      await AsyncStorage.setItem(STORAGE_KEY, objToStr);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const loadFromStorage = async () => {
+    try {
+      const todo = await AsyncStorage.getItem(STORAGE_KEY);
+      if (todo !== null) {
+        setItemListInToday(JSON.parse(todo));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <View>
       <Text style={styles.title}>Today</Text>
-      <TextComp setTodo={setTodo}></TextComp>
+      <TextComp setTodo={setTodo} saveTodo={saveTodo}></TextComp>
       <ScrollView>
         {Object.keys(itemListInToday).map((key) => {
           return (

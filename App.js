@@ -12,7 +12,6 @@ export default function App() {
   const [itemListInWeek, setItemListInWeek] = useState({});
 
   const onClick = useCallback((menuText) => {
-    console.log("btnClick");
     setMainScreenFlag(menuText === "Today" ? false : true);
   }, []);
 

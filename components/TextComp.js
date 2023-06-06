@@ -2,17 +2,20 @@ import React, { useCallback, useState } from "react";
 import { StyleSheet, TextInput } from "react-native";
 import { theme } from "../color.js";
 
-const TextComp = ({ setTodo }) => {
+const TextComp = ({ setTodo, saveTodo }) => {
   const [text, setText] = useState("");
 
   const onChangeText = useCallback((e) => {
     setText(e);
   }, []);
 
-  const addTodo = useCallback(() => {
+  const addTodo = useCallback(async () => {
     if (text === "") return;
 
-    setTodo({ [Date.now()]: { text } });
+    const newWork = { [Date.now()]: { text } };
+
+    await saveTodo(newWork);
+    setTodo(newWork);
     setText("");
   }, [text]);
 
